@@ -91,4 +91,6 @@ if __name__ == "__main__":
     """
 
     send_mattermost(formatted_message, bot_name=model_name)
+    print(answer)
     print("Done.")
+
