@@ -17,9 +17,7 @@ def ask_gemini(prompt):
     """Google Gemini Pro에게 질문"""
     try:
         client = genai.Client()
-        response = client.models.generate_content(
-            model="gemini-3-flash-preview", contents=prompt
-        )
+        response = client.models.generate_content(model="gemini-3-flash-preview", contents=prompt)
         return response.text
     except Exception as e:
         return f"Gemini API 오류: {str(e)}"
@@ -31,28 +29,29 @@ def ask_perplexity(prompt):
         url = "https://api.perplexity.ai/chat/completions"
         payload = {
             "model": "sonar-pro",  # 또는 sonar-reasoning-pro
-            "messages": [{"role": "system", "content": "1. 데이터를 생성하기 위해 사용된 자료에 링크가 있다면, 링크는 맨 마지막에 따로 제공해주세요. 2. 생성 결과는 항상 Markdown 형식으로 제공해주세요. 3. 내용은 이해하기 쉽게, 어려운 용어는 풀어서 설명해주세요."},
-                         {"role": "user", "content": prompt}
-             ]
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "1. 데이터를 생성하기 위해 사용된 자료에 링크가 있다면, 링크는 맨 마지막에 따로 제공해주세요. 2. 생성 결과는 항상 Markdown 형식으로 제공해주세요. 3. 내용은 이해하기 쉽게, 어려운 용어는 풀어서 설명해주세요.",
+                },
+                {"role": "user", "content": prompt},
+            ],
         }
-        headers = {
-            "Authorization": f"Bearer {PPLX_API_KEY}",
-            "Content-Type": "application/json"
-        }
+        headers = {"Authorization": f"Bearer {PPLX_API_KEY}", "Content-Type": "application/json"}
         response = requests.post(url, json=payload, headers=headers)
         response.raise_for_status()  # HTTP 에러 체크
-        return response.json()['choices'][0]['message']['content']
+        return response.json()["choices"][0]["message"]["content"]
     except Exception as e:
         return f"Perplexity API 오류: {str(e)}"
 
 
 def send_mattermost(message, bot_name="AI Assistant"):
     """Mattermost로 메시지 전송"""
-    headers = {'Content-Type': 'application/json'}
+    headers = {"Content-Type": "application/json"}
     payload = {
         "text": message,
         "username": bot_name,
-        "icon_url": "https://cdn-icons-png.flaticon.com/512/4712/4712027.png"  # 원하는 아이콘 URL
+        "icon_url": "https://cdn-icons-png.flaticon.com/512/4712/4712027.png",  # 원하는 아이콘 URL
     }
 
     try:
@@ -95,4 +94,3 @@ if __name__ == "__main__":
     send_mattermost(formatted_message, bot_name=model_name)
     print(answer)
     print("Done.")
-
