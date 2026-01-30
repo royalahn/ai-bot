@@ -31,7 +31,9 @@ def ask_perplexity(prompt):
         url = "https://api.perplexity.ai/chat/completions"
         payload = {
             "model": "sonar-pro",  # 또는 sonar-reasoning-pro
-            "messages": [{"role": "user", "content": prompt}]
+            "messages": [{"role": "system", "content": "1. 데이터를 생성하기 위해 사용된 자료에 링크가 있다면, 링크는 맨 마지막에 따로 제공해주세요. 2. 생성 결과는 항상 Markdown 형식으로 제공해주세요. 3. 내용은 이해하기 쉽게, 어려운 용어는 풀어서 설명해주세요."},
+                         {"role": "user", "content": prompt}
+             ]
         }
         headers = {
             "Authorization": f"Bearer {PPLX_API_KEY}",
