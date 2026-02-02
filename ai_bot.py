@@ -84,9 +84,9 @@ if __name__ == "__main__":
     # Mattermost 메시지 포맷팅 (Markdown 활용)
     # > 인용구로 질문을 표시하고, 답변을 아래에 배치
     formatted_message = f"""
-### {source_emoji} {model_name}의 답변
+### {source_emoji} {model_name}
+
 ---
-**Q. {args.prompt}**
 
 {answer}
     """
